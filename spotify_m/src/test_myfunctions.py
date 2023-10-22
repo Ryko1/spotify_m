@@ -8,7 +8,7 @@ app = create_app()
 
 @pytest.fixture
 def client():
-    with app.text_client() as client:
+    with app.test_client() as client:
         yield client
 
 def test_artist_route():
@@ -17,6 +17,8 @@ def test_artist_route():
         artist = models.Artist(name="Test Artist")
         models.db.session.add(artist)
         models.db.session.commit()
+
+    client = app.test_client()
 
     response = client.get('/artists')
 
