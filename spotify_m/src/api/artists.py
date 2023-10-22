@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, abort, request
 from ..models import User, Playlist, Song, Artist, db
-from src.python_requests import get_token,
+from src.python_requests import get_token
 
 bp = Blueprint('artists', __name__, url_prefix='/artists')
 

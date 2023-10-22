@@ -18,22 +18,6 @@ users_followers_table = db.Table(
     )
 )
 
-class User(db.Model):
-    __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    username = db.Column(db.String(128), unique=True, nullable=False)
-    password = db.Column(db.String(128), nullable=False)
-    email = db.Column(db.String(128), nullable=True)
-    playlist_id = db.relationship('playlist', backref='users', lazy=True)
-    follower = db.relationship(
-        'followers',
-        secondary=users_followers_table,
-        primaryjoin=(users_followers_table.c.followee_id == id),
-        secondaryjoin=(users_followers_table.c.user_id == id),
-        backref=db.backref('followee', lazy='dynamic'),
-        lazy='dynamic'
-    )
-    
 users_playlists_table = db.Table(
     'users_playlists',
     db.Column(
@@ -49,6 +33,27 @@ users_playlists_table = db.Table(
     )
 )
 
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    username = db.Column(db.String(128), unique=True, nullable=False)
+    password = db.Column(db.String(128), nullable=False)
+    email = db.Column(db.String(128), nullable=True)
+    playlists = db.relationship(
+        'Playlist',
+        secondary=users_playlists_table,
+        backref=db.backref('users', lazy='dynamic'),
+        lazy='dynamic'
+    )
+    followers = db.relationship(
+        'User',
+        secondary=users_followers_table,
+        primaryjoin=(users_followers_table.c.followee_id == id),
+        secondaryjoin=(users_followers_table.c.user_id == id),
+        backref=db.backref('followees', lazy='dynamic'),
+        lazy='dynamic'
+    )
+
 class Playlist(db.Model):
     __tablename__ = 'playlists'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -59,12 +64,12 @@ class Playlist(db.Model):
         nullable=False
     )
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    song_id = db.relationship('songs', backref='playlists', lazy=True)
+    songs = db.relationship('Song', backref='playlist', lazy=True)
     followers = db.relationship(
-        'users',
+        'User',
         secondary=users_playlists_table,
         lazy='subquery',
-        backref=db.backref('playlists', lazy=True)
+        backref=db.backref('followed_playlists', lazy=True)
     )
 
     def __init__(self, name: str, created_at: datetime,):
@@ -107,7 +112,7 @@ class Artist(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(128), nullable=False)
     genre = db.Column(db.String(128), nullable=True)
-    song_id = db.relationship('songs', backref='artists')
+    song_id = db.relationship('Song', backref='artists')
 
 
     def serialize(self):
