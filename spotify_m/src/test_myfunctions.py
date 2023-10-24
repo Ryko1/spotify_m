@@ -15,9 +15,14 @@ def client():
 def test_artist_route():
     # Create a sample artist for testing
     with app.app_context():
-        artist = models.Artist(name="Test Artist")
-        models.db.session.add(artist)
-        models.db.session.commit()
+        existing_artist = models.Artist.query.filter_by(name="Test Artist").first()
+        
+        if not existing_artist:
+            artist = models.Artist(name="Test Artist")
+            models.db.session.add(artist)
+            models.db.session.commit()
+        else:
+            artist = existing_artist
 
     client = app.test_client()
 
@@ -31,9 +36,14 @@ def test_artist_route():
 def test_song_route():
     # Create a sample artist for testing
     with app.app_context():
-        song = models.Song(title="Test Title")
-        models.db.session.add(song)
-        models.db.session.commit()
+        existing_song = models.Song.query.filter_by(title="Test Title").first()
+        
+        if not existing_song:
+            song = models.Song(title="Test Title")
+            models.db.session.add(song)
+            models.db.session.commit()
+        else:
+            song = existing_song
 
     client = app.test_client()
 
@@ -55,8 +65,19 @@ def test_playlist_route():
         else:
             user = existing_user
 
+        existing_song = models.Song.query.filter_by(title="Test Title").first()
+        
+        if not existing_song:
+            song = models.Song(title="Test Title")
+            models.db.session.add(song)
+            models.db.session.commit()
+        else:
+            song = existing_song
+
+        songs = [song]
+
         created_at = datetime(2023, 10, 25, 14, 30, 0)
-        playlist = models.Playlist(name="Test Playlist", created_at=created_at, user_id=user.id)
+        playlist = models.Playlist(name="Test Playlist", created_at=created_at, user_id=user.id, song=songs)
         user.playlists.append(playlist)
         models.db.session.commit()
 

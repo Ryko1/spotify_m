@@ -64,7 +64,7 @@ class Playlist(db.Model):
         nullable=False
     )
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    songs = db.relationship('Song', backref='playlist', lazy=True)
+    song = db.relationship('Song', backref='playlist', lazy=True)
     followers = db.relationship(
         'User',
         secondary=users_playlists_table,
@@ -72,9 +72,11 @@ class Playlist(db.Model):
         backref=db.backref('followed_playlists', lazy=True)
     )
 
-    def __init__(self, name: str, created_at: datetime,):
+    def __init__(self, name: str, created_at: datetime, user_id: int, song: str):
         self.name = name
         self.created_at = created_at
+        self.user_id = user_id
+        self.song = song
 
     def serialize(self):
         return {
