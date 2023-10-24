@@ -72,18 +72,18 @@ class Playlist(db.Model):
         backref=db.backref('followed_playlists', lazy=True)
     )
 
-    def __init__(self, name: str, created_at: datetime, user_id: int, song: str):
+    def __init__(self, name: str, created_at: datetime, user_id: int):
         self.name = name
         self.created_at = created_at
         self.user_id = user_id
-        self.song = song
+        # self.song = song  --future debugging for Pytest
 
     def serialize(self):
         return {
             'id': self.id,
             'name': self.name,
-            'created_at': self.created_at.isoformat(),
-            'song_id': self.song_id
+            'created_at': self.created_at.isoformat()#,
+            # 'song_id': self.song_id
         }
     
 

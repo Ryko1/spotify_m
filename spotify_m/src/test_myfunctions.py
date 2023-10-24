@@ -77,7 +77,7 @@ def test_playlist_route():
         songs = [song]
 
         created_at = datetime(2023, 10, 25, 14, 30, 0)
-        playlist = models.Playlist(name="Test Playlist", created_at=created_at, user_id=user.id, song=songs)
+        playlist = models.Playlist(name="Test Playlist", created_at=created_at, user_id=user.id)
         user.playlists.append(playlist)
         models.db.session.commit()
 
