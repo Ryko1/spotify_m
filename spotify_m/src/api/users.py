@@ -10,6 +10,19 @@ def scramble(password: str):
     salt = secrets.token_hex(16)
     return hashlib.sha512((password + salt).encode('utf-8')).hexdigest()
 
+@bp.route('', methods=['GET'])
+def index():
+    try:
+        users = User.query.all()
+        result = []
+        for u in users:
+            result = [u.serialize()]
+        return jsonify(result)
+    except Exception as e:
+        # Log the error and return an error response
+        print(str(e))
+        return jsonify({'error': str(e)}), 500    
+
 @bp.route('', methods=['POST'])
 def create():
     # req body must contain user_id and content
@@ -48,7 +61,7 @@ def update(id: int):
 @bp.route('/user_playlist/<int:id>', methods=['GET'])
 def user_playlist(id: int):
     u = User.query.get_or_404(id)
-    user_playlists = User.playlist_id
+    user_playlists = u.playlists
     result = [playlist.serialize() for playlist in user_playlists]
     return jsonify(result)
 

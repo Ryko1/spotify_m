@@ -54,6 +54,17 @@ class User(db.Model):
         lazy='dynamic'
     )
 
+    def __init__(self, username: str, email: str):
+        self.username = username
+        self.email = email
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "username": self.username,
+            "email": self.email,
+        }
+
 class Playlist(db.Model):
     __tablename__ = 'playlists'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

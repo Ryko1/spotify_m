@@ -1,5 +1,6 @@
 import pytest
 import json
+import requests
 from datetime import datetime
 from flask import Flask
 from src import create_app, models
@@ -11,6 +12,27 @@ app = create_app()
 def client():
     with app.test_client() as client:
         yield client
+
+def test_user_route():
+# Create a sample User for testing
+    with app.app_context():
+        existing_user = models.User.query.filter_by(username="Test User", password="Test Password").first()
+        
+        if not existing_user:
+            user = models.User(username="Test User", password="Test Password")
+            models.db.session.add(user)
+            models.db.session.commit()
+        else:
+            user = existing_user
+
+    client = app.test_client()
+
+    response = client.get('/users')
+
+    assert response.status_code == 200
+    data = json.loads(response.data)
+    assert len(data) == 1 
+    assert data[0]['username'] == "Test User"
 
 def test_artist_route():
     # Create a sample artist for testing
@@ -34,7 +56,7 @@ def test_artist_route():
     assert data[0]['name'] == "Test Artist"
 
 def test_song_route():
-    # Create a sample artist for testing
+    # Create a sample Song for testing
     with app.app_context():
         existing_song = models.Song.query.filter_by(title="Test Title").first()
         
