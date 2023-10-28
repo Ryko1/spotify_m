@@ -22,5 +22,5 @@ jobs:
 
     - name: Test code
       run: pytest
-      working-directory: src/test_myfunctions.py
+      working-directory: src
             
