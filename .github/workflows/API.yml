@@ -2,7 +2,14 @@ name: REST API Testing
 
 on:
     push:
-        branches: main
+        branches:
+          - main
+        paths:
+          - 'spotify_m/src/api/artists.py'
+          - 'spotify_m/src/api/playlists.py'
+          - 'spotify_m/src/api/songs.py'
+          - 'spotify_m/src/api/users.py'
+          - 'spotify_m/src/test_myfunctions.py'
 
 jobs:
   build:
