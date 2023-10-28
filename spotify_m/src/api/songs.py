@@ -3,18 +3,18 @@ from ..models import User, Playlist, Song, Artist, db
 
 bp = Blueprint('songs', __name__, url_prefix='/songs')
 
-# @bp.route('', methods=['GET'])
-# def index():
-#     try:
-#         songs = Song.query.all()
-#         result = []
-#         for s in songs:
-#             result = [s.serialize()]
-#         return jsonify(result)
-#     except Exception as e:
-#         # Log the error and return an error response
-#         print(str(e))
-#         return jsonify({'error': str(e)}), 500 
+@bp.route('', methods=['GET'])
+def index():
+    try:
+        songs = Song.query.all()
+        result = []
+        for s in songs:
+            result = [s.serialize()]
+        return jsonify(result)
+    except Exception as e:
+        # Log the error and return an error response
+        print(str(e))
+        return jsonify({'error': str(e)}), 500 
 
 @bp.route('/<int:id>', methods=['GET'])
 def show(id: int):
