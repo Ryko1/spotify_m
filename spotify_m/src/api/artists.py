@@ -8,7 +8,7 @@ bp = Blueprint('artists', __name__, url_prefix='/artists')
 def index():
     try:
         artists = Artist.query.all()
-        # result = []
+        result = []
         for a in artists:
             result = [a.serialize()]
         return jsonify(result)
