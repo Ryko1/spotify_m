@@ -22,5 +22,5 @@ jobs:
 
     - name: Test code
       run: pytest
-      working-directory: spotify_m/src/test_myfunctions.py
+      working-directory: src/test_myfunctions.py
             
