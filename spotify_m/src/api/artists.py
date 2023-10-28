@@ -4,18 +4,18 @@ from src.python_requests import get_token
 
 bp = Blueprint('artists', __name__, url_prefix='/artists')
 
-# @bp.route('', methods=['GET'])
-# def index():
-#     try:
-#         artists = Artist.query.all()
-#         result = []
-#         for a in artists:
-#             result = [a.serialize()]
-#         return jsonify(result)
-#     except Exception as e:
-#         # Log the error and return an error response
-#         print(str(e))
-#         return jsonify({'error': str(e)}), 500    
+@bp.route('', methods=['GET'])
+def index():
+    try:
+        artists = Artist.query.all()
+        result = []
+        for a in artists:
+            result = [a.serialize()]
+        return jsonify(result)
+    except Exception as e:
+        # Log the error and return an error response
+        print(str(e))
+        return jsonify({'error': str(e)}), 500    
     
 @bp.route('/<int:id>', methods=['GET'])
 def show(id: int):
