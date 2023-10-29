@@ -141,3 +141,5 @@ class Artist(db.Model):
 
 def test():
     print("This is a Test")
+def test():
+    print("This is a Test")
