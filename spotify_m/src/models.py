@@ -33,37 +33,37 @@ users_playlists_table = db.Table(
     )
 )
 
-# class User(db.Model):
-#     __tablename__ = 'users'
-#     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-#     username = db.Column(db.String(128), unique=True, nullable=False)
-#     password = db.Column(db.String(128), nullable=False)
-#     email = db.Column(db.String(128), nullable=True)
-#     playlists = db.relationship(
-#         'Playlist',
-#         secondary=users_playlists_table,
-#         backref=db.backref('users', lazy='dynamic'),
-#         lazy='dynamic'
-#     )
-#     followers = db.relationship(
-#         'User',
-#         secondary=users_followers_table,
-#         primaryjoin=(users_followers_table.c.followee_id == id),
-#         secondaryjoin=(users_followers_table.c.user_id == id),
-#         backref=db.backref('followees', lazy='dynamic'),
-#         lazy='dynamic'
-#     )
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    username = db.Column(db.String(128), unique=True, nullable=False)
+    password = db.Column(db.String(128), nullable=False)
+    email = db.Column(db.String(128), nullable=True)
+    playlists = db.relationship(
+        'Playlist',
+        secondary=users_playlists_table,
+        backref=db.backref('users', lazy='dynamic'),
+        lazy='dynamic'
+    )
+    followers = db.relationship(
+        'User',
+        secondary=users_followers_table,
+        primaryjoin=(users_followers_table.c.followee_id == id),
+        secondaryjoin=(users_followers_table.c.user_id == id),
+        backref=db.backref('followees', lazy='dynamic'),
+        lazy='dynamic'
+    )
 
-#     def __init__(self, username: str, email: str):
-#         self.username = username
-#         self.email = email
+    def __init__(self, username: str, email: str):
+        self.username = username
+        self.email = email
 
-#     def serialize(self):
-#         return {
-#             "id": self.id,
-#             "username": self.username,
-#             "email": self.email,
-#         }
+    def serialize(self):
+        return {
+            "id": self.id,
+            "username": self.username,
+            "email": self.email,
+        }
 
 class Playlist(db.Model):
     __tablename__ = 'playlists'
