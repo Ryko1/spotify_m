@@ -2,6 +2,8 @@ name: Check Models.py Update
 
 on:
   push:
+    branches:
+      - main
     paths:
       - spotify_m/src/models.py
 
