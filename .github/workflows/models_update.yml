@@ -1,0 +1,22 @@
+name: Check Models.py Update
+
+on:
+  push:
+    paths:
+      - spotify_m/src/models.py
+
+jobs:
+  check-update:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Run Python Script
+      run: |
+        if [ -n "$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'models.py')" ]; then
+          echo "models.py has been updated."
+        else
+          echo "No update in models.py."
+        fi
