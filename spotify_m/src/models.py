@@ -143,3 +143,5 @@ def Test():
     print("This is a test")
 def Test2():
     print("This is a test")
+def Test3():
+    print("This is a test")
