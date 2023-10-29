@@ -14,11 +14,16 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+    
+    - name: Debugging
+      run: |
+        git log --oneline
+        cat spotify_m/src/models.py
+        echo "Before Commit Hash: ${{ github.event.before }}"
+        echo "After Commit Hash: ${{ github.sha }}"
 
     - name: Run Python Script
       run: |
-        echo "Before Commit Hash: ${{ github.event.before }}"
-        echo "After Commit Hash: ${{ github.sha }}"
         if [ -n "$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'models.py')" ]; then
           echo "models.py has been updated."
           git diff ${{ github.event.before }} ${{ github.sha }} -- spotify_m/src/models.py > models_change.diff
