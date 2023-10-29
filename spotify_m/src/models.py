@@ -138,3 +138,6 @@ class Artist(db.Model):
             'genre': self.genre,
             'song_id': self.song_id
         }
+
+def test():
+    print("This is a Test")
