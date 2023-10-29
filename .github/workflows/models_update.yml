@@ -17,6 +17,7 @@ jobs:
       run: |
         if [ -n "$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'models.py')" ]; then
           echo "models.py has been updated."
+          git diff ${{ github.event.before }} ${{ github.sha }} -- spotify_m/src/models.py > models_change.diff
         else
           echo "No update in models.py."
         fi

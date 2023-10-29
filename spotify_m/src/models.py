@@ -138,6 +138,3 @@ class Artist(db.Model):
             'genre': self.genre,
             'song_id': self.song_id
         }
-
-
-asdasdasdasdas
