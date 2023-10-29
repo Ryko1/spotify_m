@@ -69,7 +69,6 @@ class Playlist(db.Model):
     __tablename__ = 'playlists'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(128), nullable=False)
-    author = db.Column(db.string(128), nullable=True)
     created_at = db.Column(
         db.DateTime,
         default = datetime.datetime.utcnow(),
